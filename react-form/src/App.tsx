@@ -4,6 +4,10 @@ import ClassCard from "./components/classCard";
 import turmas from "./mocks/turmas.json";
 import IClass from "./interfaces/IClass";
 
+import { Card, Form, Input, Button, Row, Col, Typography, Layout } from "antd";
+const { Title } = Typography;
+const { Header } = Layout;
+
 function App() {
   const {
     register,
@@ -21,70 +25,91 @@ function App() {
 
   return (
     <>
-      <header>
-        <a href="/">Turmas</a>
-      </header>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: "#1890ff",
+          padding: "0 20px",
+        }}
+      >
+        <Title level={1} style={{ color: "#fff", margin: 0 }}>
+          PrismaManagement
+        </Title>
+        <a style={{ color: "#fff", fontSize: 18 }}>Turmas</a>
+      </Header>
       <main>
-        <h1>Turmas</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <fieldset>
-            <label htmlFor="name">Nome do curso</label>
-            <input
-              type="text"
-              id="name"
-              {...register("name", { required: "Nome obrigatório" })}
-            />
-            {errors.name && <p>{errors.name.message}</p>}
-          </fieldset>
+        <Card
+          title="Criar Turma"
+          style={{ maxWidth: 400, margin: "auto", padding: 16 }}
+        >
+          <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+            <Form.Item
+              label="Nome do curso"
+              validateStatus={errors.name ? "error" : ""}
+              help={errors.name?.message}
+            >
+              <Input {...register("name", { required: "Nome obrigatório" })} />
+            </Form.Item>
 
-          <fieldset>
-            <label htmlFor="room">Laboratório</label>
-            <input
-              type="text"
-              id="room"
-              {...register("room", {
-                required: "Nome do laboratório obrigatório",
-              })}
-            />
-            {errors.room && <p>{errors.room.message}</p>}
-          </fieldset>
+            <Form.Item
+              label="Laboratório"
+              validateStatus={errors.room ? "error" : ""}
+              help={errors.room?.message}
+            >
+              <Input
+                {...register("room", {
+                  required: "Nome do laboratório obrigatório",
+                })}
+              />
+            </Form.Item>
 
-          <fieldset>
-            <label htmlFor="capacity">Capacidade máxima</label>
-            <input
-              type="number"
-              id="capacity"
-              {...register("capacity", { required: "Capacidade obrigatória" })}
-            />
-            {errors.capacity && <p>{errors.capacity.message}</p>}
-          </fieldset>
+            <Form.Item
+              label="Capacidade máxima"
+              validateStatus={errors.capacity ? "error" : ""}
+              help={errors.capacity?.message}
+            >
+              <Input
+                type="number"
+                {...register("capacity", {
+                  required: "Capacidade obrigatória",
+                })}
+              />
+            </Form.Item>
 
-          <fieldset>
-            <label htmlFor="day">Dia</label>
-            <input
-              type="text"
-              id="day"
-              {...register("day", { required: "Dia obrigatório" })}
-            />
-            {errors.day && <p>{errors.day.message}</p>}
-          </fieldset>
+            <Form.Item
+              label="Dia"
+              validateStatus={errors.day ? "error" : ""}
+              help={errors.day?.message}
+            >
+              <Input {...register("day", { required: "Dia obrigatório" })} />
+            </Form.Item>
 
-          <fieldset>
-            <label htmlFor="hour">Hora</label>
-            <input
-              type="time"
-              id="hour"
-              {...register("hour", { required: "Hora obrigatória" })}
-            />
-            {errors.hour && <p>{errors.hour.message}</p>}
-          </fieldset>
+            <Form.Item
+              label="Hora"
+              validateStatus={errors.hour ? "error" : ""}
+              help={errors.hour?.message}
+            >
+              <Input
+                type="time"
+                {...register("hour", { required: "Hora obrigatória" })}
+              />
+            </Form.Item>
 
-          <button type="submit">Criar</button>
-        </form>
+            <Button type="primary" htmlType="submit">
+              Criar
+            </Button>
+          </Form>
+        </Card>
         <section>
-          {turmas.map((turma) => (
-            <ClassCard key={turma.id} turma={turma} />
-          ))}
+          <Row gutter={[16, 16]} justify="center">
+            {turmas.map((turma) => (
+              <Col key={turma.id} xs={24} sm={12} md={8} lg={6}>
+                <ClassCard turma={turma} />
+              </Col>
+            ))}
+          </Row>
         </section>
       </main>
     </>
