@@ -1,13 +1,18 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import ClassCard from "./components/classCard";
 import turmas from "./mocks/turmas.json";
 import IClass from "./interfaces/IClass";
 
+import { Form, Input, Button, Typography, Layout } from "antd";
+const { Header } = Layout;
+const { Title, Link } = Typography;
+const { Item } = Form;
+
 function App() {
   const {
-    register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<Partial<IClass>>();
 
@@ -21,66 +26,96 @@ function App() {
 
   return (
     <>
-      <header>
-        <a href="/">Turmas</a>
-      </header>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Title level={1} style={{ color: "#fff", margin: 0 }}>
+          Turmas
+        </Title>
+        <Link style={{ fontSize: 18 }} href="/">
+          Turmas
+        </Link>
+      </Header>
       <main>
-        <h1>Turmas</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <fieldset>
-            <label htmlFor="name">Nome do curso</label>
-            <input
-              type="text"
-              id="name"
-              {...register("name", { required: "Nome obrigatório" })}
+        <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+          <Item
+            label="Nome do curso"
+            name="name"
+            validateStatus={errors.name ? "error" : ""}
+            help={errors.name?.message}
+          >
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: "Nome obrigatório" }}
+              render={({ field }) => <Input {...field} />}
             />
-            {errors.name && <p>{errors.name.message}</p>}
-          </fieldset>
+          </Item>
 
-          <fieldset>
-            <label htmlFor="room">Laboratório</label>
-            <input
-              type="text"
-              id="room"
-              {...register("room", {
-                required: "Nome do laboratório obrigatório",
-              })}
+          <Item
+            label="Laboratório"
+            name="room"
+            validateStatus={errors.room ? "error" : ""}
+            help={errors.room?.message}
+          >
+            <Controller
+              name="room"
+              control={control}
+              rules={{ required: "Nome do laboratório obrigatório" }}
+              render={({ field }) => <Input {...field} />}
             />
-            {errors.room && <p>{errors.room.message}</p>}
-          </fieldset>
+          </Item>
 
-          <fieldset>
-            <label htmlFor="capacity">Capacidade máxima</label>
-            <input
-              type="number"
-              id="capacity"
-              {...register("capacity", { required: "Capacidade obrigatória" })}
+          <Item
+            label="Capacidade máxima"
+            name="capacity"
+            validateStatus={errors.capacity ? "error" : ""}
+            help={errors.capacity?.message}
+          >
+            <Controller
+              name="capacity"
+              control={control}
+              rules={{ required: "Capacidade obrigatória" }}
+              render={({ field }) => <Input type="number" {...field} />}
             />
-            {errors.capacity && <p>{errors.capacity.message}</p>}
-          </fieldset>
+          </Item>
 
-          <fieldset>
-            <label htmlFor="day">Dia</label>
-            <input
-              type="text"
-              id="day"
-              {...register("day", { required: "Dia obrigatório" })}
+          <Item
+            label="Dia"
+            name="day"
+            validateStatus={errors.day ? "error" : ""}
+            help={errors.day?.message}
+          >
+            <Controller
+              name="day"
+              control={control}
+              rules={{ required: "Dia obrigatório" }}
+              render={({ field }) => <Input {...field} />}
             />
-            {errors.day && <p>{errors.day.message}</p>}
-          </fieldset>
+          </Item>
 
-          <fieldset>
-            <label htmlFor="hour">Hora</label>
-            <input
-              type="time"
-              id="hour"
-              {...register("hour", { required: "Hora obrigatória" })}
+          <Item
+            label="Hora"
+            name="hour"
+            validateStatus={errors.hour ? "error" : ""}
+            help={errors.hour?.message}
+          >
+            <Controller
+              name="hour"
+              control={control}
+              rules={{ required: "Hora obrigatória" }}
+              render={({ field }) => <Input type="time" {...field} />}
             />
-            {errors.hour && <p>{errors.hour.message}</p>}
-          </fieldset>
+          </Item>
 
-          <button type="submit">Criar</button>
-        </form>
+          <Button type="primary" htmlType="submit">
+            Criar
+          </Button>
+        </Form>
         <section>
           {turmas.map((turma) => (
             <ClassCard key={turma.id} turma={turma} />
